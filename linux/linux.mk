@@ -10,7 +10,7 @@ ifeq ($(LINUX26_VERSION),custom)
 LINUX26_TARBALL:=$(call qstrip,$(BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION))
 LINUX26_SITE:=$(dir $(LINUX26_TARBALL))
 #LINUX26_SOURCE:=$(notdir $(LINUX26_TARBALL))
-LINUX26_SOURCE:=linux-custom.tar.gz
+#LINUX26_SOURCE:=linux-custom.tar.gz
 else
 LINUX26_SOURCE:=linux-$(LINUX26_VERSION).tar.bz2
 LINUX26_SITE:=$(BR2_KERNEL_MIRROR)/linux/kernel/v2.6/
@@ -78,10 +78,7 @@ endif # BR2_LINUX_KERNEL_VMLINUX
 # Download
 $(LINUX26_DIR)/.stamp_downloaded:
 	@$(call MESSAGE,"Downloading kernel")
-	#$(call DOWNLOAD,$(LINUX26_SITE),$(LINUX26_SOURCE))
-ifeq ($(wildcard dl/$(LINUX26_SOURCE)),)
-  $(shell wget -N --no-check-certificate "$(LINUX26_TARBALL)" -O "dl/$(LINUX26_SOURCE)")
-endif
+	$(call DOWNLOAD,$(LINUX26_SITE),$(LINUX26_SOURCE))
 	$(foreach patch,$(filter ftp://% http://%,$(LINUX26_PATCH)),\
 		$(call DOWNLOAD,$(dir $(patch)),$(notdir $(patch)))$(sep))
 	mkdir -p $(@D)
