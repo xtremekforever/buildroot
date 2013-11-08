@@ -1,0 +1,6 @@
+#!/bin/sh
+#
+# Call Ahern network setup script
+#
+
+/root/network-setup
